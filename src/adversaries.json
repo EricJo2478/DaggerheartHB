@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Bear",
+    "tier": 1,
+    "category": "Bruiser",
+    "description": "A large bear with thick fur and powerful claws.",
+    "motives": "Climb, defend territory, pummel, track",
+    "difficulty": 14,
+    "thresholds": { "major": 9, "severe": 17 },
+    "hp": 7,
+    "stress": 2,
+    "atk": 1,
+    "attack": "Claws",
+    "range": "Melee",
+    "damage": "1d8+3",
+    "damageType": "phy",
+    "experiences": [
+      { "name": "Ambusher", "value": 3 },
+      { "name": "Keen Senses", "value": 2 }
+    ],
+    "passives": ["Overwhelming Force"],
+    "actions": ["Bite"],
+    "reactions": ["Momentum"],
+    "variables": [
+      {
+        "key": "abv",
+        "value": "Bear"
+      },
+      {
+        "key": "abvp",
+        "value": "Bear's"
+      }
+    ]
+  }
+]
