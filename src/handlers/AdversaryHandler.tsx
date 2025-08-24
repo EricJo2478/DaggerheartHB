@@ -86,6 +86,10 @@ export default class AdversaryHandler extends Handler {
     return adversary;
   }
 
+  addAdversary(adversary: Adversary) {
+    this.data[adversary.getId()] = adversary;
+  }
+
   newAdversary(prototype: AdversaryPrototype) {
     const adversary = prototype.toAdversary();
     return adversary;

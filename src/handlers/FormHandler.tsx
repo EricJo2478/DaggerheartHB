@@ -119,7 +119,7 @@ export default class FormHandler extends Handler {
     );
 
     ADVERSARIES.newAdversary(prototype).then((adversary) => {
-      console.log(adversary);
+      ADVERSARIES.addAdversary(adversary);
       ADVERSARIES.openAdversary(adversary);
     });
   }
