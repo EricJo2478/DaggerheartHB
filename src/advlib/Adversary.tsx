@@ -298,6 +298,19 @@ export default class Adversary {
     return this.thresholds;
   }
 
+  getTags(): string[] {
+    return this.tags;
+  }
+
+  getAbbreviation() {
+    for (const variable of this.variables) {
+      if (variable.abv) {
+        return variable.abv;
+      }
+    }
+    return "";
+  }
+
   hasExperiences(): boolean {
     return this.experiences.length > 0;
   }
@@ -330,10 +343,23 @@ export default class Adversary {
     return this.variables;
   }
 
+  getMdList(list: string[]) {
+    let content = "";
+    for (const tag of list) {
+      content = content + "\n  - " + tag;
+    }
+
+    return content;
+  }
+
   getMarkDown(): string {
     const attack = this.getAttack();
     let str =
-      '---\nstatblock: inline\n---\n\n```statblock\nlayout: Daggerheart Adversary\nname: "' +
+      "---\nstatblock: inline\ntags:" +
+      this.getMdList(this.getTags()) +
+      "\naliases:" +
+      this.getMdList([this.getAbbreviation()]) +
+      '\n---\n\n```statblock\nlayout: Daggerheart Adversary\nname: "' +
       this.name +
       '"\ntier: "' +
       this.tier.toNumber() +
@@ -370,7 +396,7 @@ export default class Adversary {
       }
     }
 
-    return str + "\n```\n";
+    return str + "\n```\n^statblock\n";
   }
 
   getJson(): string {
@@ -450,7 +476,14 @@ export default class Adversary {
         str = str + ",";
       }
     }
-    ("]}");
+    str = str + '],"tags":[';
+    for (let index = 0; index < this.tags.length; index++) {
+      str = str + '"' + this.tags[index] + '"';
+      if (index < this.tags.length - 1) {
+        str = str + ",";
+      }
+    }
+    str = str + "]}";
     return str;
   }
 
