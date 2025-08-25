@@ -73,7 +73,7 @@ export default class FeatureVariable {
   constructor(name: string, value: string) {
     this.key = name;
     this.value = value;
-    this.isNumber = isNaN(Number(value));
+    this.isNumber = !isNaN(Number(value));
   }
 
   apply(str: string) {
