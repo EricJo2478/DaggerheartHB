@@ -6,10 +6,11 @@ import Feature, {
 } from "./Feature";
 import Thresholds from "./Thresholds";
 import Tier from "./Tier";
-import type { Category, FeatureVariablePair } from "./Types";
+import type { Category } from "./Types";
 import type Experience from "./Experience";
 import { addDoc, collection } from "firebase/firestore";
 import { database } from "../App";
+import FeatureVariable from "./FeatureVariable";
 
 export class AdversaryPrototype {
   private readonly name: string;
@@ -26,7 +27,7 @@ export class AdversaryPrototype {
   private readonly passives: PassiveFeature[] = [];
   private readonly actions: ActionFeature[] = [];
   private readonly reactions: ReactionFeature[] = [];
-  private readonly variables: FeatureVariablePair[];
+  private readonly variables: FeatureVariable[];
   private readonly tags: string[];
   private id?: string;
   private adversary?: Adversary;
@@ -43,7 +44,7 @@ export class AdversaryPrototype {
     stress: number,
     attack: Attack,
     experiences: Experience[],
-    variables: FeatureVariablePair[],
+    variables: FeatureVariable[],
     features: Feature[],
     tags: string[]
   ) {
@@ -153,9 +154,7 @@ export class AdversaryPrototype {
       });
     }
     for (const variable of this.variables) {
-      const key = Object.keys(variable)[0];
-      const value = variable[key];
-      output.variables.push({ key: key, value: value });
+      output.variables.push({ key: variable.getKey(), value: variable.get() });
     }
     return output;
   }
@@ -182,7 +181,7 @@ export default class Adversary {
   private readonly thresholds: Thresholds;
   private readonly attack: Attack;
   private readonly experiences: Experience[];
-  private readonly variables: FeatureVariablePair[];
+  private readonly variables: FeatureVariable[];
   private readonly tags: string[];
   private readonly id: string;
   private passives: PassiveFeature[] = [];
@@ -201,7 +200,7 @@ export default class Adversary {
     stress: number,
     attack: Attack,
     experiences: Experience[],
-    variables: FeatureVariablePair[],
+    variables: FeatureVariable[],
     tags: string[],
     id: string
   ) {
@@ -236,7 +235,7 @@ export default class Adversary {
   }
 
   addFeatureVariable(key: string, value: string) {
-    this.variables.push({ [key]: value });
+    this.variables.push(new FeatureVariable(key, value));
   }
 
   getId(): string {
@@ -305,8 +304,8 @@ export default class Adversary {
 
   getAbbreviation() {
     for (const variable of this.variables) {
-      if (variable.abv) {
-        return variable.abv;
+      if (variable.getKey() === "abv") {
+        return variable.get();
       }
     }
     return "";
@@ -472,7 +471,12 @@ export default class Adversary {
     for (let index = 0; index < this.variables.length; index++) {
       const variable = this.variables[index];
       str =
-        str + '{"key":"' + variable.key + '","value":"' + variable.value + '"}';
+        str +
+        '{"key":"' +
+        variable.getKey() +
+        '","value":"' +
+        variable.get() +
+        '"}';
       if (index < this.variables.length - 1) {
         str = str + ",";
       }

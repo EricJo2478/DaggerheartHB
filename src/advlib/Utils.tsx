@@ -1,5 +1,5 @@
 import type Feature from "./Feature";
-import type { FeatureVariablePair } from "./Types";
+import type FeatureVariable from "./FeatureVariable";
 
 export async function copyToClipboard(str: string) {
   try {
@@ -11,7 +11,7 @@ export async function copyToClipboard(str: string) {
 
 export function convertMdToHtml(
   features: Feature[],
-  variables: FeatureVariablePair[]
+  variables: FeatureVariable[]
 ) {
   const htmlify = (s: string) => {
     return s

@@ -12,9 +12,10 @@ import type { AdversaryPrototype } from "../advlib/Adversary";
 import Thresholds from "../advlib/Thresholds";
 import Attack from "../advlib/Attack";
 import Experience from "../advlib/Experience";
-import type { FeatureVariablePair, KeyList } from "../advlib/Types";
+import type { KeyList } from "../advlib/Types";
 import type { ReactNode } from "react";
 import AdversaryCard from "../components/AdversaryCard";
+import FeatureVariable from "../advlib/FeatureVariable";
 
 export default class AdversaryHandler extends Handler {
   private adversary?: Adversary;
@@ -42,9 +43,9 @@ export default class AdversaryHandler extends Handler {
     for (const experience of data.experiences) {
       experiences.push(new Experience(experience.name, experience.value));
     }
-    const variables: FeatureVariablePair[] = [];
+    const variables: FeatureVariable[] = [];
     for (const variable of data.variables) {
-      variables.push({ [variable.key]: variable.value });
+      variables.push(new FeatureVariable(variable.key, variable.value));
     }
 
     const adversary = new Adversary(
@@ -135,8 +136,15 @@ export default class AdversaryHandler extends Handler {
       if (name.toLowerCase().includes(keyword)) {
         const adversary = ADVERSARIES.getAdversaryByName(name);
         content.push(
-          <Col className="mb-3" xs={12} sm={6} md={4} lg={3}>
-            <AdversaryCard key={adversary.getId()}>{adversary}</AdversaryCard>
+          <Col
+            key={adversary.getId()}
+            className="mb-3"
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+          >
+            <AdversaryCard>{adversary}</AdversaryCard>
           </Col>
         );
       }

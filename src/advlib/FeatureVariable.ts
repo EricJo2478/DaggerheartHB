@@ -1,4 +1,4 @@
-import type { FeatureVariablePair } from "./Types";
+import type Feature from "./Feature";
 
 function numberToLongName(num: number): string {
   if (num < 0) {
@@ -66,39 +66,38 @@ function numberToLongName(num: number): string {
 
 export default class FeatureVariable {
   private readonly key: string;
-  constructor(name: string) {
+  private readonly value: string;
+  private readonly isNumber: boolean;
+
+  constructor(name: string, value: string) {
     this.key = name;
+    this.value = value;
+    this.isNumber = isNaN(Number(value));
   }
 
-  set(str: string, value: string) {
-    return str.replaceAll(this.key, value);
-  }
-
-  exists(variables: FeatureVariablePair[]) {
-    for (const variable of variables) {
-      if (Object.keys(variable)[0] == this.key) {
-        return true;
-      }
+  apply(str: string) {
+    if (this.key.includes("abv")) {
+      return str.replaceAll("{{" + this.key + "}}", this.value);
     }
-    return false;
+    if (this.isNumber) {
+      return str.replaceAll("{{X}}", this.value);
+    } else {
+      return str.replaceAll(
+        "{{X}}",
+        "{{" + numberToLongName(Number(this.value)) + "}}"
+      );
+    }
   }
 
-  get(str: string, variables: FeatureVariablePair[]) {
-    if (this.exists(variables)) {
-      for (const variable of variables) {
-        const value = variable[this.key];
-        if (value) {
-          if (isNaN(Number(value))) {
-            str = str.replaceAll("{{" + this.key + "}}", value);
-          } else {
-            str = str.replaceAll(
-              "{{" + this.key + "}}",
-              "{{" + numberToLongName(Number(value)) + "}}"
-            );
-          }
-        }
-      }
-    }
-    return str;
+  exists(feature: Feature) {
+    return feature.getId() === this.key || this.key.includes("abv");
+  }
+
+  get(): string {
+    return this.value;
+  }
+
+  getKey(): string {
+    return this.key;
   }
 }

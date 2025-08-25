@@ -9,7 +9,6 @@ import type {
   DamageType,
   Die,
   Distance,
-  FeatureVariablePair,
   KeyList,
 } from "../advlib/Types";
 import { AdversaryPrototype } from "../advlib/Adversary";
@@ -17,6 +16,7 @@ import Thresholds from "../advlib/Thresholds";
 import Attack from "../advlib/Attack";
 import Experience from "../advlib/Experience";
 import Tier from "../advlib/Tier";
+import FeatureVariable from "../advlib/FeatureVariable";
 
 interface Props {
   featureData: FeatureCVariable;
@@ -29,7 +29,7 @@ interface FeatureCVariable {
 
 function FeatureSection({ featureData }: Props) {
   const feature = featureData.feature;
-  const variable = [{ [feature.getName()]: featureData.variable }];
+  const variable = [new FeatureVariable(feature.getId(), featureData.variable)];
   return (
     <div className="mb-3">
       <p className="d-inline">
@@ -39,7 +39,6 @@ function FeatureSection({ featureData }: Props) {
       <Button
         variant="secondary"
         onClick={() => {
-          console.log(feature);
           FORM.removeFeature(featureData);
         }}
       >
@@ -64,22 +63,16 @@ export default class FormHandler extends Handler {
     e.preventDefault();
     const formData = new FormData(e.target);
     const payload = Object.fromEntries(formData);
-    const variables = FORM.getVariables();
+    const variables: FeatureVariable[] = FORM.getVariables();
     const features = FORM.getFeatures();
     FORM.clearFeatures();
 
     const abbreviation = payload.abbreviation as string;
-    variables.push({
-      abv: abbreviation,
-    });
+    variables.push(new FeatureVariable("abv", abbreviation));
     if (abbreviation[abbreviation.length - 1] === "s") {
-      variables.push({
-        abvp: abbreviation + "'",
-      });
+      variables.push(new FeatureVariable("abvp", abbreviation + "'"));
     } else {
-      variables.push({
-        abvp: abbreviation + "'s",
-      });
+      variables.push(new FeatureVariable("abvp", abbreviation + "'s"));
     }
 
     const experiences = [];
@@ -179,13 +172,12 @@ export default class FormHandler extends Handler {
   }
 
   getVariables() {
-    const variables: FeatureVariablePair[] = [];
+    const variables: FeatureVariable[] = [];
     for (const featureData of Object.values(this.features)) {
-      console.log(featureData);
       if (featureData.variable !== "") {
-        variables.push({
-          [featureData.feature.getName()]: featureData.variable,
-        });
+        variables.push(
+          new FeatureVariable(featureData.feature.getId(), featureData.variable)
+        );
       }
     }
     return variables;
