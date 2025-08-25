@@ -8,7 +8,7 @@ interface Props {
 
 export default function AdversaryCard({ children }: Props) {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card className="h-100 w-100" style={{ width: "18rem" }}>
       <Card.Body className="d-flex flex-column">
         <Card.Title>{children.getName()}</Card.Title>
         <Card.Subtitle>

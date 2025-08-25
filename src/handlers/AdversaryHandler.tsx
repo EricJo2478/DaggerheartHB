@@ -5,7 +5,7 @@ import {
   copyToClipboard,
   downloadData,
 } from "../advlib/Utils";
-import { Button, Container } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { ADVERSARIES, FEATURES, PAGES } from "../App";
 import type { DocumentData } from "firebase/firestore";
 import type { AdversaryPrototype } from "../advlib/Adversary";
@@ -135,13 +135,15 @@ export default class AdversaryHandler extends Handler {
       if (name.toLowerCase().includes(keyword)) {
         const adversary = ADVERSARIES.getAdversaryByName(name);
         content.push(
-          <AdversaryCard key={adversary.getId()}>{adversary}</AdversaryCard>
+          <Col className="mb-3" xs={12} sm={6} md={4} lg={3}>
+            <AdversaryCard key={adversary.getId()}>{adversary}</AdversaryCard>
+          </Col>
         );
       }
     }
     return (
-      <Container fluid className="d-flex">
-        {content}
+      <Container>
+        <Row>{content}</Row>
       </Container>
     );
   }
