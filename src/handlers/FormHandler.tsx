@@ -78,7 +78,10 @@ export default class FormHandler extends Handler {
     variables.push(new FeatureVariable("name", name));
     if (abbreviation[abbreviation.length - 1] === "s") {
       variables.push(new FeatureVariable("namep", name + "es"));
-    } else if (abbreviation[abbreviation.length - 1] === "y") {
+    } else if (
+      abbreviation[abbreviation.length - 1] === "y" &&
+      abbreviation[abbreviation.length - 2] !== "e"
+    ) {
       variables.push(
         new FeatureVariable("namep", name.substring(0, -1) + "ies")
       );
