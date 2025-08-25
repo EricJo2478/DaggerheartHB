@@ -99,7 +99,9 @@ export default class Attack {
       ": " +
       this.range +
       " | " +
-      this.getDamageString()
+      this.getDamageString() +
+      " " +
+      this.getDamageType()
     );
   }
 }
