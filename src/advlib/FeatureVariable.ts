@@ -81,12 +81,13 @@ export default class FeatureVariable {
       return str.replaceAll("{{" + this.key + "}}", this.value);
     }
     if (this.isNumber) {
-      return str.replaceAll("{{X}}", this.value);
+      return str
+        .replaceAll("{{X}}", numberToLongName(Number(this.value)))
+        .replaceAll("{{#}}", this.value);
     } else {
-      return str.replaceAll(
-        "{{X}}",
-        "{{" + numberToLongName(Number(this.value)) + "}}"
-      );
+      return str
+        .replaceAll("{{X}}", this.value)
+        .replaceAll("{{#}}", this.value);
     }
   }
 
