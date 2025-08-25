@@ -94,6 +94,11 @@ export default class FormHandler extends Handler {
       experiences.push(new Experience(name, value));
     }
 
+    const tags: string[] = [];
+    for (const tag of (payload.tags as string).split(",")) {
+      tags.push(tag.trim());
+    }
+
     const prototype = new AdversaryPrototype(
       payload.name as string,
       Number(payload.tier),
@@ -115,7 +120,8 @@ export default class FormHandler extends Handler {
       ),
       experiences,
       variables,
-      features
+      features,
+      tags
     );
 
     ADVERSARIES.newAdversary(prototype).then((adversary) => {

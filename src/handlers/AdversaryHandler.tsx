@@ -68,6 +68,7 @@ export default class AdversaryHandler extends Handler {
       ),
       experiences,
       variables,
+      data.tags,
       doc.id
     );
 

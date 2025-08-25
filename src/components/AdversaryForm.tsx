@@ -195,6 +195,11 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         </InputGroup>
       </Form.Group>
 
+      <Form.Group className="mb-3" as={Col} controlId="fromTags">
+        <Form.Label>Tags</Form.Label>
+        <Form.Control name="tags" type="text" placeholder="tag1, tag2" />
+      </Form.Group>
+
       <Button variant="primary" type="submit">
         Submit
       </Button>

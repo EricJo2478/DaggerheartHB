@@ -27,6 +27,7 @@ export class AdversaryPrototype {
   private readonly actions: ActionFeature[] = [];
   private readonly reactions: ReactionFeature[] = [];
   private readonly variables: FeatureVariablePair[];
+  private readonly tags: string[];
   private id?: string;
   private adversary?: Adversary;
 
@@ -43,7 +44,8 @@ export class AdversaryPrototype {
     attack: Attack,
     experiences: Experience[],
     variables: FeatureVariablePair[],
-    features: Feature[]
+    features: Feature[],
+    tags: string[]
   ) {
     this.name = name;
     this.tier = Tier.tierFromNumber(tier);
@@ -57,6 +59,7 @@ export class AdversaryPrototype {
     this.attack = attack;
     this.experiences = experiences;
     this.variables = variables;
+    this.tags = tags;
 
     for (const feature of features) {
       this.addFeature(feature);
@@ -93,6 +96,7 @@ export class AdversaryPrototype {
       this.attack,
       this.experiences,
       this.variables,
+      this.tags,
       this.id as string
     );
 
@@ -178,6 +182,7 @@ export default class Adversary {
   private readonly attack: Attack;
   private readonly experiences: Experience[];
   private readonly variables: FeatureVariablePair[];
+  private readonly tags: string[];
   private readonly id: string;
   private passives: PassiveFeature[] = [];
   private actions: ActionFeature[] = [];
@@ -196,6 +201,7 @@ export default class Adversary {
     attack: Attack,
     experiences: Experience[],
     variables: FeatureVariablePair[],
+    tags: string[],
     id: string
   ) {
     this.name = name;
@@ -214,6 +220,7 @@ export default class Adversary {
     this.attack = attack;
     this.experiences = experiences;
     this.variables = variables;
+    this.tags = tags;
     this.id = id;
   }
 
