@@ -56,6 +56,9 @@ export default class Attack {
   }
 
   getDamageModifierAsString(): string {
+    if (this.damage === 0) {
+      return "";
+    }
     if (this.damage < 0) {
       return this.damage.toString();
     } else {
