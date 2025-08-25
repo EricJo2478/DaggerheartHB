@@ -55,11 +55,10 @@ export default class Attack {
     if (this.damage === 0) {
       return "";
     }
-    if (this.damage < 0 || !(this.die > 0)) {
-      return this.damage.toString();
-    } else {
+    if (this.die > 0 && this.damage > 0) {
       return "+" + this.damage;
     }
+    return this.damage.toString();
   }
 
   getDie(): Die {
