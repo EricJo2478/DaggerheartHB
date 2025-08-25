@@ -69,7 +69,7 @@ export default class FormHandler extends Handler {
 
     const abbreviation = payload.abbreviation as string;
     variables.push({
-      abv: abbreviation + "'s",
+      abv: abbreviation,
     });
     if (abbreviation[abbreviation.length - 1] === "s") {
       variables.push({
