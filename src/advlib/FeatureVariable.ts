@@ -77,7 +77,7 @@ export default class FeatureVariable {
   }
 
   apply(str: string) {
-    if (this.key.includes("abv")) {
+    if (FeatureVariable.universals.includes(this.key)) {
       return str.replaceAll("{{" + this.key + "}}", this.value);
     }
     if (this.isNumber) {
