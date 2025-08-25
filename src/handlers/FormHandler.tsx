@@ -160,6 +160,10 @@ export default class FormHandler extends Handler {
     this.category = category;
     (document.getElementById("formHorde") as HTMLInputElement).disabled =
       this.category !== "Horde";
+    (document.getElementById("formDie") as HTMLInputElement).disabled =
+      this.category === "Minion";
+    (document.getElementById("formDice") as HTMLInputElement).disabled =
+      this.category === "Minion";
   }
 
   tooltip = (key: string) => {
