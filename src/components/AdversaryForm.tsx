@@ -49,7 +49,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
       </Form.Group>
 
       <Form.Group as={Row} className="mb-3">
-        <Col sm={6}>
+        <Col sm={5}>
           <Form.Select
             onChange={(e) => {
               FORM.setTier(Number(e.target.value));
@@ -64,7 +64,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
             <option value={4}>Tier 4</option>
           </Form.Select>
         </Col>
-        <Col sm={6}>
+        <Col sm={5}>
           <Form.Select
             onChange={(e) => {
               FORM.setCategory(e.target.value as Category);
@@ -84,6 +84,18 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
             <option>Ranged</option>
             <option>Support</option>
           </Form.Select>
+        </Col>
+        <Col sm={2}>
+          <InputGroup className="mb-3">
+            <Form.Control
+              disabled
+              id="formHorde"
+              name="horde"
+              type="number"
+              placeholder="#"
+            />
+            <InputGroup.Text id="basic-addon1">/HP</InputGroup.Text>
+          </InputGroup>
         </Col>
       </Form.Group>
 

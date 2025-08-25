@@ -70,7 +70,8 @@ export default class AdversaryHandler extends Handler {
       experiences,
       variables,
       data.tags,
-      doc.id
+      doc.id,
+      data.horde
     );
 
     for (const featureName of data.passives) {
@@ -165,7 +166,10 @@ export default class AdversaryHandler extends Handler {
       <>
         <h4>{adversary.getName()}</h4>
         <h5>
-          {adversary.getTier().toString() + " " + adversary.getCategory()}
+          {adversary.getTier().toString() +
+            " " +
+            adversary.getCategory() +
+            (adversary.getCategory() === "Horde" && " " + adversary.getHorde())}
         </h5>
         <p>{adversary.getDescription()}</p>
         <p>

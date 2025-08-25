@@ -123,7 +123,8 @@ export default class FormHandler extends Handler {
       experiences,
       variables,
       features,
-      tags
+      tags,
+      payload.horde as string
     );
 
     ADVERSARIES.newAdversary(prototype).then((adversary) => {
@@ -146,6 +147,8 @@ export default class FormHandler extends Handler {
 
   setCategory(category: Category) {
     this.category = category;
+    (document.getElementById("formHorde") as HTMLInputElement).disabled =
+      this.category !== "Horde";
   }
 
   tooltip = (key: string) => {

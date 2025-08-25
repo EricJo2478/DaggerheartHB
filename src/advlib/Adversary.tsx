@@ -28,6 +28,7 @@ export class AdversaryPrototype {
   private readonly actions: ActionFeature[] = [];
   private readonly reactions: ReactionFeature[] = [];
   private readonly variables: FeatureVariable[];
+  private readonly horde: number;
   private readonly tags: string[];
   private id?: string;
   private adversary?: Adversary;
@@ -46,7 +47,8 @@ export class AdversaryPrototype {
     experiences: Experience[],
     variables: FeatureVariable[],
     features: Feature[],
-    tags: string[]
+    tags: string[],
+    horde: string
   ) {
     this.name = name;
     this.tier = Tier.tierFromNumber(tier);
@@ -61,6 +63,11 @@ export class AdversaryPrototype {
     this.experiences = experiences;
     this.variables = variables;
     this.tags = tags;
+    if (horde === "" || isNaN(Number(horde))) {
+      this.horde = 1;
+    } else {
+      this.horde = Number(horde);
+    }
 
     for (const feature of features) {
       this.addFeature(feature);
@@ -98,7 +105,8 @@ export class AdversaryPrototype {
       this.experiences,
       this.variables,
       this.tags,
-      this.id as string
+      this.id as string,
+      this.horde
     );
 
     this.adversary.setFeatures(this.passives, this.actions, this.reactions);
@@ -183,6 +191,7 @@ export default class Adversary {
   private readonly experiences: Experience[];
   private readonly variables: FeatureVariable[];
   private readonly tags: string[];
+  private readonly horde: number;
   private readonly id: string;
   private passives: PassiveFeature[] = [];
   private actions: ActionFeature[] = [];
@@ -202,7 +211,8 @@ export default class Adversary {
     experiences: Experience[],
     variables: FeatureVariable[],
     tags: string[],
-    id: string
+    id: string,
+    horde?: number
   ) {
     this.name = name;
     if (typeof tier === "number") {
@@ -222,6 +232,15 @@ export default class Adversary {
     this.variables = variables;
     this.tags = tags;
     this.id = id;
+    if (this.category === "Horde") {
+      if (horde) {
+        this.horde = horde;
+      } else {
+        this.horde = 1;
+      }
+    } else {
+      this.horde = -1;
+    }
   }
 
   setFeatures(
@@ -302,6 +321,10 @@ export default class Adversary {
     return this.tags;
   }
 
+  getHorde(): string {
+    return "(" + this.horde + "/HP)";
+  }
+
   getAbbreviation() {
     for (const variable of this.variables) {
       if (variable.getKey() === "abv") {
@@ -365,6 +388,7 @@ export default class Adversary {
       this.tier.toNumber() +
       '"\ntype: "' +
       this.category +
+      (this.category === "Horde" && " " + this.getHorde()) +
       '"\ndescription: "' +
       this.description +
       '"\nmotives_and_tactics: "' +
@@ -408,6 +432,7 @@ export default class Adversary {
       this.tier.toNumber() +
       ',"category":"' +
       this.category +
+      (this.category === "Horde" && " " + this.getHorde()) +
       '","description":"' +
       this.description +
       '","motives":"' +
@@ -491,6 +516,4 @@ export default class Adversary {
     str = str + "]}";
     return str;
   }
-
-  render() {}
 }
