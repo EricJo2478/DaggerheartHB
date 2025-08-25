@@ -224,10 +224,9 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
               const varInput = document.getElementById(
                 "pendingFeatureVariable"
               ) as HTMLInputElement;
-              FORM.addFeature(
-                FEATURES.getFeatureByName(nameInput.value),
-                varInput.value
-              );
+              const value = nameInput.value;
+              nameInput.value = "";
+              FORM.addFeature(FEATURES.getFeatureByName(value), varInput.value);
             }}
           >
             <i className="bi bi-plus"></i>
