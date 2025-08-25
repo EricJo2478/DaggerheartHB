@@ -23,7 +23,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
   };
   return (
     <Form onSubmit={onSubmit}>
-      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+      <Form.Group as={Row} className="mb-3">
         <Form.Label column sm={2}>
           Name
         </Form.Label>
@@ -35,7 +35,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         </Col>
       </Form.Group>
 
-      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+      <Form.Group as={Row} className="mb-3">
         <Col sm={6}>
           <Form.Select name="tier" defaultValue={"Melee"}>
             <option value={1}>Tier 1</option>

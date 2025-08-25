@@ -13,7 +13,6 @@ export function convertMdToHtml(
   features: Feature[],
   variables: FeatureVariablePair[]
 ) {
-  console.log(variables);
   const htmlify = (s: string) => {
     return s
       .replace(/\*\*{1,2}(.*?)\*\*{1,2}/g, "<strong>$1</strong>")

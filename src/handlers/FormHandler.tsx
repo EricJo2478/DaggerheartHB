@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 import AdversaryForm from "../components/AdversaryForm";
 import Handler from "./Handler";
 import { Button } from "react-bootstrap";

@@ -26,7 +26,6 @@ export const FEATURES = new FeatureHandler();
 export const ADVERSARIES = new AdversaryHandler();
 
 export default function App() {
-  //const [keyword, setKeyword] = useState("keyword");
   const [, setPages] = useState({} as KeyList);
   const [, setFeatures] = useState({} as KeyList);
   const [, setAdversaries] = useState({} as KeyList);
