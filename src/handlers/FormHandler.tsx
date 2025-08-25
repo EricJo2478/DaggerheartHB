@@ -83,22 +83,24 @@ export default class FormHandler extends Handler {
     }
 
     const experiences = [];
-    for (const expStr of (payload.experiences as string).split(",")) {
-      const data = expStr.trim().split(" ");
-      let name = "";
-      let value = 0;
-      for (let i = 0; i < data.length; i++) {
-        if (isNaN(Number(data[i]))) {
-          if (name === "") {
-            name = name + data[i];
+    if ((payload.experiences as string).trim().length > 0) {
+      for (const expStr of (payload.experiences as string).split(",")) {
+        const data = expStr.trim().split(" ");
+        let name = "";
+        let value = 0;
+        for (let i = 0; i < data.length; i++) {
+          if (isNaN(Number(data[i]))) {
+            if (name === "") {
+              name = name + data[i];
+            } else {
+              name = name + " " + data[i];
+            }
           } else {
-            name = name + " " + data[i];
+            value = Number(data[i]);
           }
-        } else {
-          value = Number(data[i]);
         }
+        experiences.push(new Experience(name, value));
       }
-      experiences.push(new Experience(name, value));
     }
 
     const tags: string[] = [];
