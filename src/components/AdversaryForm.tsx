@@ -1,6 +1,8 @@
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { FEATURES, FORM } from "../App";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
+import Overlay from "./Overlay";
+import type { Category } from "../advlib/Types";
 
 interface Props {
   renderFeatures: () => ReactNode;
@@ -21,6 +23,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
     }
     return content;
   };
+
   return (
     <Form onSubmit={onSubmit}>
       <Form.Group as={Row} className="mb-3">
@@ -37,7 +40,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
 
       <Form.Group as={Row} className="mb-3">
         <Col sm={6}>
-          <Form.Select name="tier" defaultValue={"Melee"}>
+          <Form.Select
+            onChange={(e) => {
+              FORM.setTier(Number(e.target.value));
+            }}
+            id="formTier"
+            name="tier"
+            defaultValue={"Melee"}
+          >
             <option value={1}>Tier 1</option>
             <option value={2}>Tier 2</option>
             <option value={3}>Tier 3</option>
@@ -45,7 +55,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
           </Form.Select>
         </Col>
         <Col sm={6}>
-          <Form.Select name="category" defaultValue={"Melee"}>
+          <Form.Select
+            onChange={(e) => {
+              FORM.setCategory(e.target.value as Category);
+            }}
+            id="formCategory"
+            name="category"
+            defaultValue={"Melee"}
+          >
             <option>Bruiser</option>
             <option>Skulk</option>
             <option>Horde</option>
@@ -79,19 +96,23 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
       </Form.Group>
 
       <Row className="mb-3">
-        <Form.Group as={Col} controlId="formDifficulty">
-          <Form.Label>Difficulty</Form.Label>
-          <Form.Control name="difficulty" type="number" placeholder="14" />
-        </Form.Group>
+        <Overlay placement="top" overlay={FORM.tooltip("difficulty")}>
+          <Form.Group as={Col} controlId="formDifficulty">
+            <Form.Label>Difficulty</Form.Label>
+            <Form.Control name="difficulty" type="number" placeholder="14" />
+          </Form.Group>
+        </Overlay>
 
-        <Form.Group as={Col} controlId="formThresholds">
-          <Form.Label>Thresholds</Form.Label>
-          <InputGroup className="mb-3">
-            <Form.Control name="major" type="number" placeholder="9" />
-            <InputGroup.Text id="basic-addon1">/</InputGroup.Text>
-            <Form.Control name="severe" type="number" placeholder="17" />
-          </InputGroup>
-        </Form.Group>
+        <Overlay placement="top" overlay={FORM.tooltip("thresholds")}>
+          <Form.Group as={Col} controlId="formThresholds">
+            <Form.Label>Thresholds</Form.Label>
+            <InputGroup className="mb-3">
+              <Form.Control name="major" type="number" placeholder="9" />
+              <InputGroup.Text id="basic-addon1">/</InputGroup.Text>
+              <Form.Control name="severe" type="number" placeholder="17" />
+            </InputGroup>
+          </Form.Group>
+        </Overlay>
 
         <Form.Group as={Col} controlId="formHp">
           <Form.Label>HP</Form.Label>
@@ -105,12 +126,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
       </Row>
 
       <Row className="mb-3 ">
-        <Form.Group as={Col} controlId="formAtk" lg="4">
-          <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">ATK:</InputGroup.Text>
-            <Form.Control name="atk" type="number" placeholder="1" />
-          </InputGroup>
-        </Form.Group>
+        <Overlay placement="top" overlay={FORM.tooltip("attack")}>
+          <Form.Group as={Col} controlId="formAtk" lg="4">
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">ATK:</InputGroup.Text>
+              <Form.Control name="atk" type="number" placeholder="1" />
+            </InputGroup>
+          </Form.Group>
+        </Overlay>
 
         <Form.Group as={Col} controlId="formAttack" lg="4">
           <InputGroup className="mb-3">
@@ -126,26 +149,28 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
           </InputGroup>
         </Form.Group>
 
-        <Form.Group as={Col} controlId="formDamage" lg="4">
-          <InputGroup className="mb-3">
-            <Form.Control name="dice" type="number" placeholder="1" />
-            <InputGroup.Text id="basic-addon1">d</InputGroup.Text>
-            <Form.Select name="die" defaultValue={8}>
-              <option>4</option>
-              <option>6</option>
-              <option>8</option>
-              <option>10</option>
-              <option>12</option>
-              <option>20</option>
-            </Form.Select>
-            <InputGroup.Text id="basic-addon2">+</InputGroup.Text>
-            <Form.Control name="damage" type="number" placeholder="3" />
-            <Form.Select name="damageType" defaultValue={"phy"}>
-              <option>phy</option>
-              <option>mag</option>
-            </Form.Select>
-          </InputGroup>
-        </Form.Group>
+        <Overlay placement="top" overlay={FORM.tooltip("damage")}>
+          <Form.Group as={Col} controlId="formDamage" lg="4">
+            <InputGroup className="mb-3">
+              <Form.Control name="dice" type="number" placeholder="1" />
+              <InputGroup.Text id="basic-addon1">d</InputGroup.Text>
+              <Form.Select name="die" defaultValue={8}>
+                <option>4</option>
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+                <option>20</option>
+              </Form.Select>
+              <InputGroup.Text id="basic-addon2">+</InputGroup.Text>
+              <Form.Control name="damage" type="number" placeholder="3" />
+              <Form.Select name="damageType" defaultValue={"phy"}>
+                <option>phy</option>
+                <option>mag</option>
+              </Form.Select>
+            </InputGroup>
+          </Form.Group>
+        </Overlay>
       </Row>
 
       <Form.Group className="mb-3" as={Col} controlId="formGridExp">

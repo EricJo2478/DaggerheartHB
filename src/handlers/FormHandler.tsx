@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import AdversaryForm from "../components/AdversaryForm";
 import Handler from "./Handler";
-import { Button } from "react-bootstrap";
+import { Button, Tooltip } from "react-bootstrap";
 import { ADVERSARIES, FEATURES, FORM } from "../App";
 import type Feature from "../advlib/Feature";
 import type {
@@ -16,6 +16,7 @@ import { AdversaryPrototype } from "../advlib/Adversary";
 import Thresholds from "../advlib/Thresholds";
 import Attack from "../advlib/Attack";
 import Experience from "../advlib/Experience";
+import Tier from "../advlib/Tier";
 
 interface Props {
   featureData: FeatureCVariable;
@@ -50,8 +51,13 @@ function FeatureSection({ featureData }: Props) {
 
 export default class FormHandler extends Handler {
   features: KeyList = {};
+  private tier: Tier;
+  private category: Category;
+
   constructor() {
     super("");
+    this.tier = Tier.tierFromNumber(1);
+    this.category = "Bruiser";
   }
 
   handleSubmit(e: any) {
@@ -129,6 +135,32 @@ export default class FormHandler extends Handler {
       ADVERSARIES.openAdversary(adversary);
     });
   }
+
+  getTier() {
+    return this.tier;
+  }
+
+  getCategory() {
+    return this.category;
+  }
+
+  setTier(tier: number) {
+    this.tier = Tier.tierFromNumber(tier);
+  }
+
+  setCategory(category: Category) {
+    this.category = category;
+  }
+
+  tooltip = (key: string) => {
+    return (props: any) => {
+      return (
+        <Tooltip id="button-tooltip" {...props}>
+          {this.tier.getTooltip(key, this.category)}
+        </Tooltip>
+      );
+    };
+  };
 
   removeFeature(featureData: FeatureCVariable) {
     delete this.features[featureData.feature.getId()];
