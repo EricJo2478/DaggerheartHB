@@ -88,7 +88,14 @@ export default class PageHandler extends Handler {
       return (
         <Navbar expand="lg" className="bg-body-tertiary">
           <Container>
-            <Navbar.Brand href="#home">{"DHHB " + this.version}</Navbar.Brand>
+            <Navbar.Brand
+              onClick={() => {
+                PAGES.setPage("home");
+              }}
+              href="#home"
+            >
+              {"DHHB " + this.version}
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
