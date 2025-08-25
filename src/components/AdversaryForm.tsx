@@ -168,7 +168,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         </Form.Group>
 
         <Overlay placement="top" overlay={FORM.tooltip("damage")}>
-          <Form.Group as={Col} controlId="formDamage" lg="4">
+          <Form.Group as={Col} lg="4">
             <InputGroup className="mb-3">
               <Form.Control
                 id="formDice"
