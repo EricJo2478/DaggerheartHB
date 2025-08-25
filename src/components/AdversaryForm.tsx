@@ -24,6 +24,16 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
     return content;
   };
 
+  const firstFeature = () => {
+    const names: string[] = [];
+    for (const id of FEATURES.getList()) {
+      const feature = FEATURES.getFeatureById(id);
+      names.push(feature.getName());
+    }
+    names.sort();
+    return names[0];
+  };
+
   return (
     <Form onSubmit={onSubmit}>
       <Form.Group as={Row} className="mb-3">
@@ -31,10 +41,10 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
           Name
         </Form.Label>
         <Col sm={6}>
-          <Form.Control name="name" type="text" placeholder="Bear" />
+          <Form.Control name="name" type="text" placeholder="Name" />
         </Col>
         <Col s={4}>
-          <Form.Control name="abbreviation" type="text" placeholder="Bear" />
+          <Form.Control name="abbreviation" type="text" placeholder="Abbrev" />
         </Col>
       </Form.Group>
 
@@ -46,7 +56,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
             }}
             id="formTier"
             name="tier"
-            defaultValue={"Melee"}
+            defaultValue={"Tier 1"}
           >
             <option value={1}>Tier 1</option>
             <option value={2}>Tier 2</option>
@@ -61,7 +71,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
             }}
             id="formCategory"
             name="category"
-            defaultValue={"Melee"}
+            defaultValue={"Bruiser"}
           >
             <option>Bruiser</option>
             <option>Skulk</option>
@@ -82,24 +92,20 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         <Form.Control
           name="description"
           type="text"
-          placeholder="A large bear with thick fur and powerful claws."
+          placeholder="Descrition..."
         />
       </Form.Group>
 
       <Form.Group className="mb-3" as={Col} controlId="formGridMotives">
         <Form.Label>Motives and Tactics</Form.Label>
-        <Form.Control
-          name="motives"
-          type="text"
-          placeholder="Climb, defend territory, pummel, track"
-        />
+        <Form.Control name="motives" type="text" placeholder="Motives..." />
       </Form.Group>
 
       <Row className="mb-3">
         <Overlay placement="top" overlay={FORM.tooltip("difficulty")}>
           <Form.Group as={Col} controlId="formDifficulty">
             <Form.Label>Difficulty</Form.Label>
-            <Form.Control name="difficulty" type="number" placeholder="14" />
+            <Form.Control name="difficulty" type="number" placeholder="##" />
           </Form.Group>
         </Overlay>
 
@@ -107,21 +113,21 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
           <Form.Group as={Col} controlId="formThresholds">
             <Form.Label>Thresholds</Form.Label>
             <InputGroup className="mb-3">
-              <Form.Control name="major" type="number" placeholder="9" />
+              <Form.Control name="major" type="number" placeholder="#" />
               <InputGroup.Text id="basic-addon1">/</InputGroup.Text>
-              <Form.Control name="severe" type="number" placeholder="17" />
+              <Form.Control name="severe" type="number" placeholder="#" />
             </InputGroup>
           </Form.Group>
         </Overlay>
 
         <Form.Group as={Col} controlId="formHp">
           <Form.Label>HP</Form.Label>
-          <Form.Control name="hp" type="number" placeholder="7" />
+          <Form.Control name="hp" type="number" placeholder="#" />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formStress">
           <Form.Label>Stress</Form.Label>
-          <Form.Control name="stress" type="number" placeholder="2" />
+          <Form.Control name="stress" type="number" placeholder="#" />
         </Form.Group>
       </Row>
 
@@ -130,14 +136,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
           <Form.Group as={Col} controlId="formAtk" lg="4">
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">ATK:</InputGroup.Text>
-              <Form.Control name="atk" type="number" placeholder="1" />
+              <Form.Control name="atk" type="number" placeholder="#" />
             </InputGroup>
           </Form.Group>
         </Overlay>
 
         <Form.Group as={Col} controlId="formAttack" lg="4">
           <InputGroup className="mb-3">
-            <Form.Control name="attack" type="text" placeholder="Claws" />
+            <Form.Control name="attack" type="text" placeholder="Attack" />
             <InputGroup.Text id="basic-addon1">:</InputGroup.Text>
             <Form.Select name="range" defaultValue={"Melee"}>
               <option>Melee</option>
@@ -152,9 +158,9 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         <Overlay placement="top" overlay={FORM.tooltip("damage")}>
           <Form.Group as={Col} controlId="formDamage" lg="4">
             <InputGroup className="mb-3">
-              <Form.Control name="dice" type="number" placeholder="1" />
+              <Form.Control name="dice" type="number" placeholder="#" />
               <InputGroup.Text id="basic-addon1">d</InputGroup.Text>
-              <Form.Select name="die" defaultValue={8}>
+              <Form.Select name="die" defaultValue={4}>
                 <option>4</option>
                 <option>6</option>
                 <option>8</option>
@@ -163,7 +169,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
                 <option>20</option>
               </Form.Select>
               <InputGroup.Text id="basic-addon2">+</InputGroup.Text>
-              <Form.Control name="damage" type="number" placeholder="3" />
+              <Form.Control name="damage" type="number" placeholder="#" />
               <Form.Select name="damageType" defaultValue={"phy"}>
                 <option>phy</option>
                 <option>mag</option>
@@ -178,7 +184,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
         <Form.Control
           name="experiences"
           type="text"
-          placeholder="Ambusher +3, Keen Senses +2"
+          placeholder="experience1 +#, experience2 +#"
         />
       </Form.Group>
 
@@ -188,17 +194,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
 
       <Form.Group className="mb-3" as={Col}>
         <InputGroup className="mb-3">
-          <Form.Select
-            defaultValue={"Overwhelming Force"}
-            id="pendingFeatureName"
-          >
+          <Form.Select defaultValue={firstFeature()} id="pendingFeatureName">
             {featureSelects()}
           </Form.Select>
           <InputGroup.Text id="basic-addon2">X:</InputGroup.Text>
           <Form.Control
             id="pendingFeatureVariable"
             type="text"
-            placeholder="Value"
+            placeholder="X..."
           />
           <Button
             variant="secondary"
