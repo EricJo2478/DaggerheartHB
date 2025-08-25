@@ -74,21 +74,28 @@ export default class FeatureVariable {
     return str.replaceAll(this.key, value);
   }
 
-  exists(variables: KeyList) {
-    return Object.keys(variables).includes(this.key);
+  exists(variables: FeatureVariablePair[]) {
+    for (const variable of variables) {
+      if (Object.keys(variable)[0] == this.key) {
+        return true;
+      }
+    }
+    return false;
   }
 
   get(str: string, variables: FeatureVariablePair[]) {
     if (this.exists(variables)) {
       for (const variable of variables) {
         const value = variable[this.key];
-        if (isNaN(Number(value))) {
-          str.replaceAll("{{" + this.key + "}}", "{{" + value + "}}");
-        } else {
-          str.replaceAll(
-            "{{" + this.key + "}}",
-            "{{" + numberToLongName(Number(value)) + "}}"
-          );
+        if (value) {
+          if (isNaN(Number(value))) {
+            str = str.replaceAll("{{" + this.key + "}}", value);
+          } else {
+            str = str.replaceAll(
+              "{{" + this.key + "}}",
+              "{{" + numberToLongName(Number(value)) + "}}"
+            );
+          }
         }
       }
     }
