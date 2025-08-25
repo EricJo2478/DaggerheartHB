@@ -135,6 +135,7 @@ export class AdversaryPrototype {
       },
       tier: this.tier.toNumber(),
       variables: [] as object[],
+      tags: this.tags,
     };
     for (const action of this.actions) {
       output.actions.push(action.getName());
