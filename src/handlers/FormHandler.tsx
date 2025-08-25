@@ -50,7 +50,7 @@ function FeatureSection({ featureData }: Props) {
 }
 
 export default class FormHandler extends Handler {
-  features: KeyList = {};
+  private features: KeyList = {};
   private tier: Tier;
   private category: Category;
 
@@ -66,6 +66,7 @@ export default class FormHandler extends Handler {
     const payload = Object.fromEntries(formData);
     const variables = FORM.getVariables();
     const features = FORM.getFeatures();
+    FORM.clearFeatures();
 
     const abbreviation = payload.abbreviation as string;
     variables.push({
@@ -194,6 +195,10 @@ export default class FormHandler extends Handler {
       features.push(FEATURES.getFeatureById(id));
     }
     return features;
+  }
+
+  clearFeatures() {
+    this.features = {};
   }
 
   render(features?: KeyList) {
