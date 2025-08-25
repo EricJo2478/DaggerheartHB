@@ -74,14 +74,14 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
             defaultValue={"Bruiser"}
           >
             <option>Bruiser</option>
-            <option>Skulk</option>
             <option>Horde</option>
-            <option>Social</option>
             <option>Leader</option>
-            <option>Solo</option>
             <option>Minion</option>
-            <option>Standard</option>
             <option>Ranged</option>
+            <option>Skulk</option>
+            <option>Social</option>
+            <option>Solo</option>
+            <option>Standard</option>
             <option>Support</option>
           </Form.Select>
         </Col>
@@ -185,6 +185,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
               <Form.Select name="damageType" defaultValue={"phy"}>
                 <option>phy</option>
                 <option>mag</option>
+                <option>phy/mag</option>
               </Form.Select>
             </InputGroup>
           </Form.Group>
