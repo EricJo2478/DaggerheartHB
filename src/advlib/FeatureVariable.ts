@@ -1,4 +1,4 @@
-import type { FeatureVariablePair, KeyList } from "./Types";
+import type { FeatureVariablePair } from "./Types";
 
 function numberToLongName(num: number): string {
   if (num < 0) {
