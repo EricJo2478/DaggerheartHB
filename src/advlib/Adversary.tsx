@@ -11,6 +11,8 @@ import type Experience from "./Experience";
 import { addDoc, collection } from "firebase/firestore";
 import { database } from "../App";
 import FeatureVariable from "./FeatureVariable";
+import { convertMdToHtml, copyToClipboard, downloadData } from "./Utils";
+import { Button } from "react-bootstrap";
 
 export class AdversaryPrototype {
   private readonly name: string;
@@ -515,5 +517,106 @@ export default class Adversary {
     }
     str = str + "]}";
     return str;
+  }
+
+  render() {
+    return (
+      <>
+        <h4>{this.getName()}</h4>
+        <h5>
+          {this.getTier().toString() +
+            " " +
+            this.getCategory() +
+            (this.getCategory() === "Horde" && " " + this.getHorde())}
+        </h5>
+        <p>{this.getDescription()}</p>
+        <p>
+          <strong>Motives and Tactics: </strong>
+          {this.getMotivesAndTactics()}
+        </p>
+        <hr></hr>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-3">
+              <h6 className="text-center">Difficulty</h6>
+              <p className="text-center">{this.getDifficulty()}</p>
+            </div>
+            <div className="col-3">
+              <h6 className="text-center">Thresholds</h6>
+              <p className="text-center">{this.getThresholds().toString()}</p>
+            </div>
+            <div className="col-3">
+              <h6 className="text-center">HP</h6>
+              <p className="text-center">{this.getHP()}</p>
+            </div>
+            <div className="col-3">
+              <h6 className="text-center">Stress</h6>
+              <p className="text-center">{this.getStress()}</p>
+            </div>
+          </div>
+        </div>
+        <p>{this.getAttack().toString()}</p>
+        {this.hasExperiences() && (
+          <p>
+            <strong>Experiences: </strong>
+            {this.experiencesAsString()}
+          </p>
+        )}
+        <hr></hr>
+        <h4>Features:</h4>
+        {convertMdToHtml(this.getPassiveFeatures(), this.getFeatureVariables())}
+        {convertMdToHtml(this.getActionFeatures(), this.getFeatureVariables())}
+        {convertMdToHtml(
+          this.getReactionFeatures(),
+          this.getFeatureVariables()
+        )}
+        <div>
+          <Button
+            onClick={() => {
+              if (this) {
+                downloadData(
+                  this.getName() + ".md",
+                  this.getMarkDown(),
+                  "text/markdown"
+                );
+              }
+            }}
+          >
+            Download .md
+          </Button>
+          <Button
+            onClick={() => {
+              if (this) {
+                downloadData(
+                  this.getName() + ".json",
+                  this.getJson(),
+                  "text/json"
+                );
+              }
+            }}
+          >
+            Download .json
+          </Button>
+          <Button
+            onClick={() => {
+              if (this) {
+                copyToClipboard(this.getMarkDown());
+              }
+            }}
+          >
+            Copy .md
+          </Button>
+          <Button
+            onClick={() => {
+              if (this) {
+                copyToClipboard(this.getJson());
+              }
+            }}
+          >
+            Copy .json
+          </Button>
+        </div>
+      </>
+    );
   }
 }

@@ -1,11 +1,6 @@
 import Handler from "./Handler";
 import Adversary from "../advlib/Adversary";
-import {
-  convertMdToHtml,
-  copyToClipboard,
-  downloadData,
-} from "../advlib/Utils";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { ADVERSARIES, FEATURES, PAGES } from "../App";
 import type { DocumentData } from "firebase/firestore";
 import type { AdversaryPrototype } from "../advlib/Adversary";
@@ -162,111 +157,6 @@ export default class AdversaryHandler extends Handler {
     if (adversary === undefined) {
       return;
     }
-    return (
-      <>
-        <h4>{adversary.getName()}</h4>
-        <h5>
-          {adversary.getTier().toString() +
-            " " +
-            adversary.getCategory() +
-            (adversary.getCategory() === "Horde" && " " + adversary.getHorde())}
-        </h5>
-        <p>{adversary.getDescription()}</p>
-        <p>
-          <strong>Motives and Tactics: </strong>
-          {adversary.getMotivesAndTactics()}
-        </p>
-        <hr></hr>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-3">
-              <h6 className="text-center">Difficulty</h6>
-              <p className="text-center">{adversary.getDifficulty()}</p>
-            </div>
-            <div className="col-3">
-              <h6 className="text-center">Thresholds</h6>
-              <p className="text-center">
-                {adversary.getThresholds().toString()}
-              </p>
-            </div>
-            <div className="col-3">
-              <h6 className="text-center">HP</h6>
-              <p className="text-center">{adversary.getHP()}</p>
-            </div>
-            <div className="col-3">
-              <h6 className="text-center">Stress</h6>
-              <p className="text-center">{adversary.getStress()}</p>
-            </div>
-          </div>
-        </div>
-        <p>{adversary.getAttack().toString()}</p>
-        {adversary.hasExperiences() && (
-          <p>
-            <strong>Experiences: </strong>
-            {adversary.experiencesAsString()}
-          </p>
-        )}
-        <hr></hr>
-        <h4>Features:</h4>
-        {convertMdToHtml(
-          adversary.getPassiveFeatures(),
-          adversary.getFeatureVariables()
-        )}
-        {convertMdToHtml(
-          adversary.getActionFeatures(),
-          adversary.getFeatureVariables()
-        )}
-        {convertMdToHtml(
-          adversary.getReactionFeatures(),
-          adversary.getFeatureVariables()
-        )}
-        <div>
-          <Button
-            onClick={() => {
-              if (adversary) {
-                downloadData(
-                  adversary.getName() + ".md",
-                  adversary.getMarkDown(),
-                  "text/markdown"
-                );
-              }
-            }}
-          >
-            Download .md
-          </Button>
-          <Button
-            onClick={() => {
-              if (adversary) {
-                downloadData(
-                  adversary.getName() + ".json",
-                  adversary.getJson(),
-                  "text/json"
-                );
-              }
-            }}
-          >
-            Download .json
-          </Button>
-          <Button
-            onClick={() => {
-              if (adversary) {
-                copyToClipboard(adversary.getMarkDown());
-              }
-            }}
-          >
-            Copy .md
-          </Button>
-          <Button
-            onClick={() => {
-              if (adversary) {
-                copyToClipboard(adversary.getJson());
-              }
-            }}
-          >
-            Copy .json
-          </Button>
-        </div>
-      </>
-    );
+    return adversary.render();
   }
 }
