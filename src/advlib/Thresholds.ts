@@ -4,21 +4,21 @@ export default class Thresholds {
 
   constructor(major?: number, severe?: number) {
     if (major === undefined) {
-      major = -1;
+      major = 0;
     }
     if (severe === undefined) {
-      severe = -1;
+      severe = 0;
     }
     this.major = major;
     this.severe = severe;
   }
 
   hasMajor(): boolean {
-    return this.major >= 0;
+    return this.major > 0;
   }
 
   hasSevere(): boolean {
-    return this.severe >= 0;
+    return this.severe > 0;
   }
 
   getMajor(): number {
@@ -34,7 +34,7 @@ export default class Thresholds {
     if (this.hasMajor()) {
       val = val + this.major;
     } else {
-      val = val + "None";
+      return "None";
     }
     val = val + "/";
     if (this.hasSevere()) {
