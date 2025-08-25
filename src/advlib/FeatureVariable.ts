@@ -65,6 +65,7 @@ function numberToLongName(num: number): string {
 }
 
 export default class FeatureVariable {
+  static universals: string[] = ["abv", "abvp", "name", "namep"];
   private readonly key: string;
   private readonly value: string;
   private readonly isNumber: boolean;
@@ -90,7 +91,10 @@ export default class FeatureVariable {
   }
 
   exists(feature: Feature) {
-    return feature.getId() === this.key || this.key.includes("abv");
+    return (
+      feature.getId() === this.key ||
+      FeatureVariable.universals.includes(this.key)
+    );
   }
 
   get(): string {

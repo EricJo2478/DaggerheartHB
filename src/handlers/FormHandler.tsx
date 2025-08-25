@@ -74,6 +74,17 @@ export default class FormHandler extends Handler {
     } else {
       variables.push(new FeatureVariable("abvp", abbreviation + "'s"));
     }
+    const name = payload.name as string;
+    variables.push(new FeatureVariable("name", name));
+    if (abbreviation[abbreviation.length - 1] === "s") {
+      variables.push(new FeatureVariable("namep", name + "es"));
+    } else if (abbreviation[abbreviation.length - 1] === "y") {
+      variables.push(
+        new FeatureVariable("namep", name.substring(0, -1) + "ies")
+      );
+    } else {
+      variables.push(new FeatureVariable("namep", name + "s"));
+    }
 
     const experiences = [];
     if ((payload.experiences as string).trim().length > 0) {
