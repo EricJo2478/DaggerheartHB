@@ -47,10 +47,6 @@ export default class Attack {
     return this.range;
   }
 
-  getDamage(): number {
-    return 0;
-  }
-
   getDamageModifier(): number {
     return this.damage;
   }
@@ -59,7 +55,7 @@ export default class Attack {
     if (this.damage === 0) {
       return "";
     }
-    if (this.damage < 0) {
+    if (this.damage < 0 || !(this.die > 0)) {
       return this.damage.toString();
     } else {
       return "+" + this.damage;
