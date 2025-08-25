@@ -390,7 +390,7 @@ export default class Adversary {
       this.tier.toNumber() +
       '"\ntype: "' +
       this.category +
-      (this.category === "Horde" && " " + this.getHorde()) +
+      (this.getCategory() === "Horde" ? " " + this.getHorde() : "") +
       '"\ndescription: "' +
       this.description +
       '"\nmotives_and_tactics: "' +
@@ -434,7 +434,7 @@ export default class Adversary {
       this.tier.toNumber() +
       ',"category":"' +
       this.category +
-      (this.category === "Horde" && " " + this.getHorde()) +
+      (this.getCategory() === "Horde" ? " " + this.getHorde() : "") +
       '","description":"' +
       this.description +
       '","motives":"' +
@@ -527,7 +527,7 @@ export default class Adversary {
           {this.getTier().toString() +
             " " +
             this.getCategory() +
-            (this.getCategory() === "Horde" && " " + this.getHorde())}
+            (this.getCategory() === "Horde" ? " " + this.getHorde() : "")}
         </h5>
         <p>{this.getDescription()}</p>
         <p>
