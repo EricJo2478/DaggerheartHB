@@ -12,12 +12,17 @@ export default class FeatureHandler extends Handler {
 
   dataAssemble(doc: DocumentData) {
     const data = doc.data();
+    let display = "";
+    if (data.display) {
+      display = data.display;
+    }
     this.nameIdMap[data.name] = doc.id;
     return Feature.create(
       Feature.getType(data.type),
       data.name,
       data.description,
-      doc.id
+      doc.id,
+      display
     );
   }
 

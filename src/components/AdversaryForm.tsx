@@ -15,7 +15,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
     const names: string[] = [];
     for (const id of FEATURES.getList()) {
       const feature = FEATURES.getFeatureById(id);
-      names.push(feature.getName());
+      names.push(feature.getFormName());
     }
     names.sort();
     for (const name of names) {

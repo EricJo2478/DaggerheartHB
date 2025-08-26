@@ -69,16 +69,16 @@ export default class AdversaryHandler extends Handler {
       data.horde
     );
 
-    for (const featureName of data.passives) {
-      adversary.addFeature(FEATURES.getFeatureByName(featureName));
+    for (const featureId of data.passives) {
+      adversary.addFeature(FEATURES.getFeatureById(featureId));
     }
 
-    for (const featureName of data.actions) {
-      adversary.addFeature(FEATURES.getFeatureByName(featureName));
+    for (const featureId of data.actions) {
+      adversary.addFeature(FEATURES.getFeatureById(featureId));
     }
 
-    for (const featureName of data.reactions) {
-      adversary.addFeature(FEATURES.getFeatureByName(featureName));
+    for (const featureId of data.reactions) {
+      adversary.addFeature(FEATURES.getFeatureById(featureId));
     }
     this.names[data.name] = doc.id;
     return adversary;

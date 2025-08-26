@@ -70,7 +70,6 @@ export class AdversaryPrototype {
     } else {
       this.horde = Number(horde);
     }
-
     for (const feature of features) {
       this.addFeature(feature);
     }
@@ -149,13 +148,13 @@ export class AdversaryPrototype {
       tags: this.tags,
     };
     for (const action of this.actions) {
-      output.actions.push(action.getName());
+      output.actions.push(action.getId());
     }
     for (const passive of this.passives) {
-      output.passives.push(passive.getName());
+      output.passives.push(passive.getId());
     }
     for (const reaction of this.reactions) {
-      output.reactions.push(reaction.getName());
+      output.reactions.push(reaction.getId());
     }
     for (const experience of this.experiences) {
       output.experiences.push({
