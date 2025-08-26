@@ -3,6 +3,7 @@ import { FEATURES, FORM } from "../App";
 import { type ReactNode } from "react";
 import Overlay from "./Overlay";
 import type { Category } from "../advlib/Types";
+import type Feature from "../advlib/Feature";
 
 interface Props {
   renderFeatures: () => ReactNode;
@@ -12,14 +13,13 @@ interface Props {
 export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
   const featureSelects = () => {
     const content: ReactNode[] = [];
-    const names: string[] = [];
-    for (const id of FEATURES.getList()) {
-      const feature = FEATURES.getFeatureById(id);
-      names.push(feature.getFormName());
-    }
-    names.sort();
-    for (const name of names) {
-      content.push(<option key={name}>{name}</option>);
+    const features: Feature[] = FEATURES.getFeatures();
+    for (const feature of features) {
+      content.push(
+        <option key={feature.getId()} value={feature.getId()}>
+          {feature.getFormName()}
+        </option>
+      );
     }
     return content;
   };
@@ -232,10 +232,7 @@ export default function AdversaryForm({ renderFeatures, onSubmit }: Props) {
               ) as HTMLInputElement;
               const value = varInput.value;
               varInput.value = "";
-              FORM.addFeature(
-                FEATURES.getFeatureByName(nameInput.value),
-                value
-              );
+              FORM.addFeature(FEATURES.getFeatureById(nameInput.value), value);
             }}
           >
             <i className="bi bi-plus"></i>

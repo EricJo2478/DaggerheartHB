@@ -4,10 +4,16 @@ import Feature from "../advlib/Feature";
 import type { KeyList } from "../advlib/Types";
 
 export default class FeatureHandler extends Handler {
-  private nameIdMap: KeyList = {};
-
   constructor() {
     super("features");
+  }
+
+  async fetch(dataSet: KeyList) {
+    dataSet = await super.fetch(dataSet);
+    const entries = Object.entries(dataSet);
+    entries.sort((a, b) => a[1].getName().localeCompare(b[1].getName()));
+    const sortedData = Object.fromEntries(entries);
+    return sortedData;
   }
 
   dataAssemble(doc: DocumentData) {
@@ -16,7 +22,6 @@ export default class FeatureHandler extends Handler {
     if (data.display) {
       display = data.display;
     }
-    this.nameIdMap[data.name] = doc.id;
     return Feature.create(
       Feature.getType(data.type),
       data.name,
@@ -26,24 +31,16 @@ export default class FeatureHandler extends Handler {
     );
   }
 
-  nameToId(name: string) {
-    return this.nameIdMap[name];
-  }
-
   getList() {
     return Object.keys(this.data);
   }
 
   getFeatures() {
-    return this.data;
+    return Object.values(this.data);
   }
 
   getFeatureById(id: string) {
     return this.data[id];
-  }
-
-  getFeatureByName(name: string) {
-    return this.getFeatureById(this.nameToId(name));
   }
 
   render() {
